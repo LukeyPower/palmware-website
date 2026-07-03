@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Palmware Games</title>
+  <meta name="description" content="Palmware Games — an independent video game studio. Currently developing Spell Slinger.">
+  <link rel="icon" type="image/png" href="assets/palmware-logo.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ======================================================
+       CRT LOADING SPLASH
+       Recreates the in-game StudioSplash: dark backdrop, logo
+       + studio text with red/cyan chromatic aberration,
+       scrolling scanlines, power-on expand, wobble + glitch.
+       Fades out on its own; click or press any key to skip.
+       ====================================================== -->
+  <div id="splash" aria-hidden="true">
+    <div class="splash-content">
+      <div class="aberr">
+        <img class="fringe fringe-r" src="assets/palmware-logo.png" alt="">
+        <img class="fringe fringe-c" src="assets/palmware-logo.png" alt="">
+        <img class="logo-main" src="assets/palmware-logo.png" alt="Palmware Games logo">
+      </div>
+      <p class="splash-text">PALMWARE GAMES</p>
+    </div>
+    <div class="glitch-bar"></div>
+    <div class="splash-scanlines"></div>
+    <div class="splash-vignette"></div>
+    <div class="splash-flash"></div>
+  </div>
+
+  <!-- ====================== SITE ====================== -->
+  <div class="crt-overlay" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#top">
+      <img src="assets/palmware-logo.png" alt="" class="brand-logo">
+      <span class="brand-name">PALMWARE GAMES</span>
+    </a>
+    <nav class="site-nav">
+      <a href="#games">GAMES</a>
+      <a href="#about">ABOUT</a>
+      <a href="#contact">CONTACT</a>
+    </nav>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <img class="hero-logo" src="assets/palmware-logo.png" alt="Palmware Games logo">
+      <h1 class="hero-title">PALMWARE GAMES</h1>
+      <div class="rainbow-bar"></div>
+      <p class="hero-tagline">An independent game studio.</p>
+    </section>
+
+    <!-- GAMES -->
+    <section id="games" class="section">
+      <h2 class="section-title">GAMES</h2>
+
+      <article class="game-card">
+        <div class="game-art art-spellslinger">
+          <span class="art-title">SPELL<br>SLINGER</span>
+        </div>
+        <div class="game-info">
+          <h3>Spell Slinger <span class="badge">IN DEVELOPMENT</span></h3>
+          <p>
+            Spell Slinger is an arcade-inspired light gun rail shooter —
+            sling spells, wield wands, and survive the arcane onslaught.
+            It's our current project: a fast, flashy blast of classic
+            arcade shooting about turning raw magic into firepower.
+          </p>
+          <p class="game-meta">Status: in active development &mdash; more soon.</p>
+        </div>
+      </article>
+
+      <article class="game-card">
+        <div class="game-art art-crochunter">
+          <span class="art-title">CROC<br>HUNTER</span>
+        </div>
+        <div class="game-info">
+          <h3>Croc Hunter</h3>
+          <p>
+            Croc Hunter is a classic arcade rail shooter developed for the
+            2026 GeekFest game jam in Darwin, NT. Set on croc-infested
+            Top End waters, players blast their way through waves of
+            crocodiles from a moving boat and fight to survive until
+            daybreak — capped off by a showdown with Big Croc himself.
+          </p>
+          <p class="game-meta">Built in Unity &mdash; developed for GeekFest 2026, Darwin NT.</p>
+          <a class="play-link" href="https://lukey3d.itch.io/croc-hunter" target="_blank" rel="noopener">PLAY ON ITCH.IO &raquo;</a>
+        </div>
+      </article>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <h2 class="section-title">ABOUT</h2>
+      <p>
+        Palmware Games is a small independent studio making colourful,
+        arcade-hearted games with a retro streak. We like chunky pixels,
+        CRT filters, and games that get to the fun fast.
+      </p>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <h2 class="section-title">CONTACT</h2>
+      <p>
+        To talk about games and business inquiries please contact Luke &mdash;
+        <a class="contact-link" href="mailto:lfronsko@gmail.com">lfronsko@gmail.com</a>
+      </p>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="rainbow-bar"></div>
+    <p>&copy; Palmware Games &mdash; 2026</p>
+  </footer>
+
+  <script>
+    // Splash teardown: remove after the fade-out animation, or instantly on
+    // any key / click (same skip behaviour as the in-game splash).
+    (function () {
+      var splash = document.getElementById('splash');
+      function kill() {
+        if (!splash) return;
+        splash.remove();
+        splash = null;
+        document.removeEventListener('keydown', kill);
+        document.removeEventListener('pointerdown', kill);
+      }
+      splash.addEventListener('animationend', function (e) {
+        if (e.animationName === 'splash-out') kill();
+      });
+      document.addEventListener('keydown', kill);
+      document.addEventListener('pointerdown', kill);
+      // Safety net in case animations are disabled (reduced motion, old browser).
+      setTimeout(kill, 5000);
+    })();
+  </script>
+</body>
+</html>
