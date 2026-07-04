@@ -15,6 +15,12 @@
   --orange: #e8712a;
   --yellow: #e8d84a;
   --green:  #3aa655;
+  /* Theme Terminal — overridden per theme by the script in index.html.
+     --heading exists because light themes (cream, LCD) need dark headings. */
+  --heading: #ffffff;
+  --bg-hdr: rgba(10, 13, 18, 0.92);
+  --border: #1d2530;
+  --accent: #e8d84a;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -255,8 +261,8 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 14px 24px;
-  background: rgba(10, 13, 18, 0.92);
-  border-bottom: 1px solid #1d2530;
+  background: var(--bg-hdr);
+  border-bottom: 1px solid var(--border);
 }
 
 .brand {
@@ -287,7 +293,7 @@ body {
 }
 
 .site-nav a:hover {
-  color: #fff;
+  color: var(--heading);
   border-bottom-color: var(--yellow);
 }
 
@@ -348,7 +354,7 @@ body {
   font-size: 1.3rem;
   letter-spacing: 0.35em;
   margin-bottom: 34px;
-  color: #fff;
+  color: var(--heading);
 }
 
 .section-title::after {
@@ -372,7 +378,7 @@ body {
   display: flex;
   gap: 26px;
   background: var(--bg-panel);
-  border: 1px solid #1d2530;
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 22px;
   margin-bottom: 28px;
@@ -434,7 +440,7 @@ body {
 
 .game-info p { margin-bottom: 10px; }
 
-.game-meta { font-size: 0.8rem; color: #6b747f; }
+.game-meta { font-size: 0.8rem; color: var(--text-dim); }
 
 /* "Play on itch.io" button on a game card. */
 .play-link {
@@ -470,8 +476,87 @@ body {
 .site-footer {
   text-align: center;
   padding: 40px 20px 50px;
-  color: #6b747f;
+  color: var(--text-dim);
   font-size: 0.85rem;
 }
 
 .site-footer .rainbow-bar { margin-bottom: 26px; }
+
+/* ============================================================
+   THEME TERMINAL
+   Rotating retro palettes (see script in index.html) with a
+   glitch burst between themes. The panel bottom-left lets
+   visitors skip themes, pause the rotation, or turn the
+   glitch off.
+   ============================================================ */
+
+/* Scanline-coloured veil that flashes during a theme change. */
+#glitch-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 950;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+.theme-glitch #glitch-veil { animation: veil 0.5s steps(4) both; }
+
+@keyframes veil {
+  0%   { opacity: 0.55; transform: translateY(-8px); }
+  40%  { opacity: 0.3;  transform: translateY(6px) scaleY(1.02); }
+  70%  { opacity: 0.35; transform: translateY(-3px); }
+  100% { opacity: 0;    transform: none; }
+}
+
+.theme-glitch main, .theme-glitch .site-header, .theme-glitch .site-footer {
+  animation: page-glitch 0.5s steps(2) both;
+}
+
+@keyframes page-glitch {
+  0%   { transform: none; }
+  15%  { transform: translate(-8px, 1px) skewX(1.5deg); filter: hue-rotate(22deg) saturate(1.6) contrast(1.1); }
+  35%  { transform: translate(7px, -2px); }
+  55%  { transform: translate(-4px, 1px) skewX(-1deg); filter: hue-rotate(-16deg); }
+  75%  { transform: translate(2px, 0); }
+  100% { transform: none; filter: none; }
+}
+
+.theme-glitch .hero-title, .theme-glitch .section-title, .theme-glitch .brand-name {
+  text-shadow: -4px 0 rgba(255, 0, 60, 0.6), 4px 0 rgba(0, 255, 255, 0.6) !important;
+}
+
+/* The control panel. */
+#theme-terminal {
+  position: fixed;
+  left: 14px;
+  bottom: 14px;
+  z-index: 960;
+  font: 11px/1.6 "Courier New", Courier, monospace;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  background: var(--bg-hdr);
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  border-radius: 4px;
+  user-select: none;
+}
+
+#theme-terminal b { color: var(--text); }
+
+.tt-btn {
+  display: inline-block;
+  margin: 7px 6px 0 0;
+  padding: 3px 9px;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.tt-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-glitch #glitch-veil, .theme-glitch main,
+  .theme-glitch .site-header, .theme-glitch .site-footer { animation: none; }
+}
