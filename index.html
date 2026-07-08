@@ -10,27 +10,8 @@
 </head>
 <body>
 
-  <!-- ======================================================
-       CRT LOADING SPLASH
-       Recreates the in-game StudioSplash: dark backdrop, logo
-       + studio text with red/cyan chromatic aberration,
-       scrolling scanlines, power-on expand, wobble + glitch.
-       Fades out on its own; click or press any key to skip.
-       ====================================================== -->
-  <div id="splash" aria-hidden="true">
-    <div class="splash-content">
-      <div class="aberr">
-        <img class="fringe fringe-r" src="assets/palmware-logo.png" alt="">
-        <img class="fringe fringe-c" src="assets/palmware-logo.png" alt="">
-        <img class="logo-main" src="assets/palmware-logo.png" alt="Palmware Games logo">
-      </div>
-      <p class="splash-text">PALMWARE GAMES</p>
-    </div>
-    <div class="glitch-bar"></div>
-    <div class="splash-scanlines"></div>
-    <div class="splash-vignette"></div>
-    <div class="splash-flash"></div>
-  </div>
+  <!-- CRT loading splash removed 2026-07-08 — archived, runnable copy in
+       archive/crt-splash/splash-demo.html (restore steps inside). -->
 
   <!-- ====================== SITE ====================== -->
   <div class="crt-overlay" aria-hidden="true"></div>
@@ -126,36 +107,15 @@
   <!-- Theme Terminal control panel -->
   <div id="theme-terminal">
     THEME TERMINAL<br>
-    <b id="tt-name">—</b> &middot; <span id="tt-timer">NEXT IN 10s</span><br>
-    <span class="tt-btn" id="tt-next">NEXT THEME</span><span class="tt-btn" id="tt-pause">PAUSE</span><span class="tt-btn" id="tt-glitch">GLITCH: ON</span>
+    <b id="tt-name">—</b> &middot; <span id="tt-timer">AUTO OFF</span><br>
+    <span class="tt-btn" id="tt-next">NEXT THEME</span><span class="tt-btn" id="tt-auto">AUTO: OFF</span><span class="tt-btn" id="tt-glitch">GLITCH: OFF</span>
   </div>
 
   <script>
-    // Splash teardown: remove after the fade-out animation, or instantly on
-    // any key / click (same skip behaviour as the in-game splash).
-    (function () {
-      var splash = document.getElementById('splash');
-      function kill() {
-        if (!splash) return;
-        splash.remove();
-        splash = null;
-        document.removeEventListener('keydown', kill);
-        document.removeEventListener('pointerdown', kill);
-      }
-      splash.addEventListener('animationend', function (e) {
-        if (e.animationName === 'splash-out') kill();
-      });
-      document.addEventListener('keydown', kill);
-      document.addEventListener('pointerdown', kill);
-      // Safety net in case animations are disabled (reduced motion, old browser).
-      setTimeout(kill, 5000);
-    })();
-  </script>
-
-  <script>
     // ==========================================================
-    // THEME TERMINAL — cycles retro palettes pulled from the
-    // logo colour studies, with a glitch burst between themes.
+    // THEME TERMINAL — retro palettes pulled from the logo colour
+    // studies. A random theme is applied on load; auto-rotation is
+    // off by default but visitors can switch it on from the panel.
     // Styles live in style.css.
     // ==========================================================
     (function () {
@@ -184,6 +144,7 @@
 
       THEMES.forEach(function (t) { if (t.logo) (new Image()).src = t.logo; });
       var idx = 0, PERIOD = 10, left = PERIOD;
+      var glitchOn = false, autoOn = false;
 
       function stripes() {
         var v = THEMES[idx].v;
@@ -199,7 +160,7 @@
           'repeating-linear-gradient(0deg, transparent 0 18px, ' + s[0] + ' 18px 20px, transparent 20px 55px, ' +
           s[2] + ' 55px 58px, transparent 58px 110px, ' + s[4] + ' 110px 112px, transparent 112px 160px)';
         var logo = t.logo || 'assets/palmware-logo.png';
-        document.querySelectorAll('.brand-logo, .hero-logo, #splash img').forEach(function (el) { el.src = logo; });
+        document.querySelectorAll('.brand-logo, .hero-logo').forEach(function (el) { el.src = logo; });
         ttName.textContent = t.name;
       }
 
@@ -212,31 +173,32 @@
       }
 
       function renderTimer() {
-        ttTimer.textContent = paused ? 'PAUSED' : 'NEXT IN ' + Math.max(left, 0) + 's';
+        ttTimer.textContent = autoOn ? 'NEXT IN ' + Math.max(left, 0) + 's' : 'AUTO OFF';
       }
 
       setInterval(function () {
-        if (paused) return;
+        if (!autoOn) return;
         left--;
         if (left <= 0) nextTheme();
         renderTimer();
       }, 1000);
 
-      var glitchOn = true, paused = false;
       document.getElementById('tt-next').addEventListener('click', function () {
         nextTheme();
         renderTimer();
       });
-      document.getElementById('tt-pause').addEventListener('click', function () {
-        paused = !paused;
-        this.textContent = paused ? 'PLAY' : 'PAUSE';
+      document.getElementById('tt-auto').addEventListener('click', function () {
+        autoOn = !autoOn;
+        left = PERIOD;
+        this.textContent = 'AUTO: ' + (autoOn ? 'ON' : 'OFF');
         renderTimer();
       });
       document.getElementById('tt-glitch').addEventListener('click', function () {
         glitchOn = !glitchOn;
         this.textContent = 'GLITCH: ' + (glitchOn ? 'ON' : 'OFF');
       });
-      apply(0);
+      // Each visit starts on a random theme (no glitch flash on first paint).
+      apply(Math.floor(Math.random() * THEMES.length));
     })();
   </script>
 </body>
