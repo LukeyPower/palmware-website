@@ -102,14 +102,14 @@
   <!-- Theme Terminal control panel -->
   <div id="theme-terminal">
     THEME TERMINAL<br>
-    <b id="tt-name">16-BIT COLOUR</b> &middot; <span id="tt-timer">AUTO OFF</span><br>
+    <b id="tt-name">16-BIT MONO</b> &middot; <span id="tt-timer">AUTO OFF</span><br>
     <span class="tt-btn" id="tt-next">NEXT THEME</span><span class="tt-btn" id="tt-auto">AUTO: OFF</span><span class="tt-btn" id="tt-glitch">GLITCH: OFF</span>
   </div>
 
   <script>
     // ==========================================================
     // THEME TERMINAL — retro palettes pulled from the logo colour
-    // studies. 16-BIT COLOUR is applied on load; auto-rotation is
+    // studies. 16-BIT MONO is applied on load; auto-rotation is
     // off by default but visitors can switch it on from the panel.
     // Styles live in style.css.
     // ==========================================================
@@ -192,9 +192,9 @@
         glitchOn = !glitchOn;
         this.textContent = 'GLITCH: ' + (glitchOn ? 'ON' : 'OFF');
       });
-      // Each visit starts on 16-BIT COLOUR (no glitch flash on first paint);
+      // Each visit starts on 16-BIT MONO (no glitch flash on first paint);
       // NEXT THEME cycles on from there.
-      apply(THEMES.map(function (t) { return t.name; }).indexOf('16-BIT COLOUR'));
+      apply(THEMES.map(function (t) { return t.name; }).indexOf('16-BIT MONO'));
     })();
   </script>
 </body>
