@@ -64,7 +64,6 @@
     var logo = base + (t.logo || 'assets/palmware-logo.png');
     document.querySelectorAll('.brand-logo, .hero-logo').forEach(function (el) { el.src = logo; });
     ttName.textContent = t.name;
-    try { sessionStorage.setItem('pw-theme', t.name); } catch (e) {}
   }
 
   function nextTheme() {
@@ -100,11 +99,8 @@
     glitchOn = !glitchOn;
     this.textContent = 'GLITCH: ' + (glitchOn ? 'ON' : 'OFF');
   });
-  // Each visit starts on 16-BIT MONO (no glitch flash on first paint).
-  // A theme picked with NEXT THEME carries across pages for the rest of
-  // the visit; sessionStorage forgets it when the tab closes.
-  var names = THEMES.map(function (t) { return t.name; });
-  var saved = -1;
-  try { saved = names.indexOf(sessionStorage.getItem('pw-theme')); } catch (e) {}
-  apply(saved >= 0 ? saved : names.indexOf('16-BIT MONO'));
+  // Every page load starts on 16-BIT MONO (no glitch flash on first paint).
+  // A theme picked with NEXT THEME lasts until the page is reloaded or the
+  // visitor moves to another page; nothing is remembered on purpose.
+  apply(THEMES.map(function (t) { return t.name; }).indexOf('16-BIT MONO'));
 })();
