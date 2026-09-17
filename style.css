@@ -5,22 +5,24 @@
    ============================================================ */
 
 :root {
-  /* StudioSplash background: rgb(0.04, 0.05, 0.07) */
-  --bg: #0a0d12;
-  --bg-panel: #11161f;
-  --text: #e8e8e8;
-  --text-dim: #9aa3ad;
-  --blue:   #4a7ce8;
-  --red:    #d7263d;
-  --orange: #e8712a;
-  --yellow: #e8d84a;
-  --green:  #3aa655;
-  /* Theme Terminal — overridden per theme by the script in index.html.
+  /* Defaults are the 16-BIT MONO theme, the one theme.js applies on load,
+     so a hard refresh never flashes another palette before the script
+     runs. The colour names come from the rainbow logo stripes; each theme
+     in theme.js overrides all of these.
      --heading exists because light themes (cream, LCD) need dark headings. */
+  --bg: #101012;
+  --bg-panel: #1c1c1f;
+  --text: #e8e8e8;
+  --text-dim: #9a9a9a;
+  --blue:   #47474d;
+  --red:    #68686f;
+  --orange: #8c8c94;
+  --yellow: #b0b0b8;
+  --green:  #dcdce0;
   --heading: #ffffff;
-  --bg-hdr: rgba(10, 13, 18, 0.92);
-  --border: #1d2530;
-  --accent: #e8d84a;
+  --bg-hdr: rgba(16, 16, 18, 0.92);
+  --border: #333338;
+  --accent: #dcdce0;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
